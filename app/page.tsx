@@ -1,11 +1,12 @@
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
     <div>
-      <UserButton></UserButton>
+      <Navbar></Navbar>
       <div className=" flex flex-col justify-center items-center text-center gap-4 p-20">
         <h1 className=" text-2xl md:text-4xl font-semibold">
           Prenez le contrôle de vos finances
