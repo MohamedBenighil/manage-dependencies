@@ -14,5 +14,12 @@
 - install prisma > init sqlite (see : you have a folder called prisma) > create lib/prisma.ts (copy paste schema from github) > install the prisma client (with the same version)
 - add the schema from github
 - migrate then generate, then hit npx prisma studio to access to db on localhost:5555
+==============================================================================================
+- now we have a user connected to our app BUT not ibserted in DB:
+    - implement a function to check if conneted user is in DB? if yes do nothing else insert it.
+        - create server app/actions.ts to request db
+        - create client (because of useffect which calls the function inside app/actions.ts ) component Budget/page.tsx
+
+//app/budgets/page.tsx
 
 ```
