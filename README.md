@@ -19,7 +19,9 @@
     - implement a function to check if conneted user is in DB? if yes do nothing else insert it.
         - create server app/actions.ts to request db
         - create client (because of useffect which calls the function inside app/actions.ts ) component Budget/page.tsx
+            - remove useEffect from Budget/page.tsx and add it to components/Navbar.tsx. Then add <Navbar> to Budget/page.tsx (because Navbar is shared between all pages and it has useUser() hook where we get email)
+            - add <Wrapper for navbar>
 
-//app/budgets/page.tsx
+
 
 ```

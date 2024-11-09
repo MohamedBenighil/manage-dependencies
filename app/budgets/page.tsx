@@ -1,12 +1,18 @@
 "use client";
 import React, { useEffect } from "react";
-import { test } from "../actions";
+
+import Navbar from "../components/Navbar";
+import Wrapper from "../components/Wrapper";
 
 const page = () => {
-  useEffect(() => {
-    test();
-  }, []);
-  return <div>page</div>;
+  return (
+    <Wrapper>
+      <div className=" bg-blue-500 flex">
+        <div className="bg-green-500 w-full">page</div>
+        <div className="bg-red-500 w-full">page</div>
+      </div>
+    </Wrapper>
+  );
 };
 
 export default page;
