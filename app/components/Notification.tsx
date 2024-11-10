@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import React, { useEffect } from "react";
 interface NotificationProps {
   message: string;
@@ -18,7 +19,8 @@ const Notification = ({ message, onClose }: NotificationProps) => {
   );
   return (
     <div className="toast toast-bottom toast-right">
-      <div className="alert">
+      <div className="alert flex gap-2">
+        <Info className="text-orange-500" />
         <span>{message}</span>
       </div>
     </div>

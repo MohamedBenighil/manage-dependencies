@@ -14,6 +14,7 @@ const page = () => {
   const [showNotification, setShowNotification] = useState<string>("");
 
   const { user } = useUser();
+
   const handleNotification = () => {
     setShowNotification("");
   };
@@ -44,7 +45,7 @@ const page = () => {
         modal.close();
       }
     } catch (error) {
-      setShowNotification("Error when adding Budget: " + error);
+      setShowNotification("" + error);
     }
   };
 
