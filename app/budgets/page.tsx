@@ -13,9 +13,37 @@ const page = () => {
 
   const { user } = useUser();
 
-  useEffect(() => {
-    console.log(user?.primaryEmailAddress?.emailAddress);
-  }, [user]);
+  const hundleAddBudget = async () => {
+    console.log(budgetName, budgetAmount, selectedEmoji);
+    try {
+      const amount = parseFloat(budgetAmount);
+
+      if (isNaN(amount) || amount < 0) {
+        throw new Error("le montant doit etre un nombre >= 0");
+      }
+
+      if (user?.primaryEmailAddress?.emailAddress) {
+        await aadBudget(
+          user.primaryEmailAddress.emailAddress,
+          budgetName,
+          amount,
+          selectedEmoji
+        );
+        console.log("the budget was added with success");
+      }
+      setbudgetName("");
+      setbudgetAmount("");
+      setSelectedEmoji("");
+
+      const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+      if (modal) {
+        modal.close();
+      }
+    } catch (error) {
+      console.log("Error: " + error);
+    }
+  };
+
   return (
     <Wrapper>
       <button
@@ -84,38 +112,7 @@ const page = () => {
               className="btn"
               type="button"
               value="Ajouter Budget"
-              onClick={async (e) => {
-                console.log(budgetName, budgetAmount, selectedEmoji);
-                try {
-                  const amount = parseFloat(budgetAmount);
-
-                  if (isNaN(amount) || amount < 0) {
-                    throw new Error("le montant doit etre un nombre >= 0");
-                  }
-
-                  if (user?.primaryEmailAddress?.emailAddress) {
-                    await aadBudget(
-                      user.primaryEmailAddress.emailAddress,
-                      budgetName,
-                      parseFloat(budgetAmount),
-                      selectedEmoji
-                    );
-                    console.log("the budget was added with success");
-                  }
-                  setbudgetName("");
-                  setbudgetAmount("");
-                  setSelectedEmoji("");
-
-                  const modal = document.getElementById(
-                    "my_modal_3"
-                  ) as HTMLDialogElement;
-                  if (modal) {
-                    modal.close();
-                  }
-                } catch (error) {
-                  console.log("Error: " + error);
-                }
-              }}
+              onClick={hundleAddBudget}
             />
           </div>
         </div>
