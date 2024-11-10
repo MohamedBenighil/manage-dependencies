@@ -30,5 +30,6 @@
     - inputs: user email (to get userId) + Budget's table fields (without transactions)
 
 - create a "modal" (dialog pop up) from daisyui and 4 inputs: name, amount, emoji and Ajouter Budget (button)
+- create corresponding states, and call the "aadBudget" action.
 
 ```

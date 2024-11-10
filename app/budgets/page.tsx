@@ -1,10 +1,21 @@
 "use client";
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import EmojiPicker from "emoji-picker-react";
+import { useUser } from "@clerk/nextjs";
+import { aadBudget } from "../actions";
 
 const page = () => {
+  const [budgetName, setbudgetName] = useState<string>("");
+  const [budgetAmount, setbudgetAmount] = useState<string>("");
+  const [showEmoji, setShowEmoji] = useState<boolean>(false);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>("");
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log(user?.primaryEmailAddress?.emailAddress);
+  }, [user]);
   return (
     <Wrapper>
       <button
@@ -35,6 +46,10 @@ const page = () => {
               id="name"
               placeholder="Nom du budget"
               required
+              value={budgetName}
+              onChange={(e) => {
+                setbudgetName(e.target.value);
+              }}
             />
             <input
               className="btn"
@@ -43,12 +58,65 @@ const page = () => {
               id="amount"
               placeholder="Montant du Budget"
               required
+              value={budgetAmount}
+              onChange={(e) => {
+                setbudgetAmount(e.target.value);
+              }}
             />
+            <input
+              className="btn"
+              type="button"
+              value={selectedEmoji || "selectionner un emoji 🫵 "}
+              onClick={(e) => setShowEmoji(!showEmoji)}
+            />
+            {showEmoji && (
+              <div className="flex items-center justify-center">
+                <EmojiPicker
+                  onEmojiClick={(e) => {
+                    setSelectedEmoji(e.emoji);
+                    setShowEmoji(false);
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="flex items-center justify-center">
-              <EmojiPicker />
-            </div>
-            <input className="btn" type="button" value="Ajouter Budget" />
+            <input
+              className="btn"
+              type="button"
+              value="Ajouter Budget"
+              onClick={async (e) => {
+                console.log(budgetName, budgetAmount, selectedEmoji);
+                try {
+                  const amount = parseFloat(budgetAmount);
+
+                  if (isNaN(amount) || amount < 0) {
+                    throw new Error("le montant doit etre un nombre >= 0");
+                  }
+
+                  if (user?.primaryEmailAddress?.emailAddress) {
+                    await aadBudget(
+                      user.primaryEmailAddress.emailAddress,
+                      budgetName,
+                      parseFloat(budgetAmount),
+                      selectedEmoji
+                    );
+                    console.log("the budget was added with success");
+                  }
+                  setbudgetName("");
+                  setbudgetAmount("");
+                  setSelectedEmoji("");
+
+                  const modal = document.getElementById(
+                    "my_modal_3"
+                  ) as HTMLDialogElement;
+                  if (modal) {
+                    modal.close();
+                  }
+                } catch (error) {
+                  console.log("Error: " + error);
+                }
+              }}
+            />
           </div>
         </div>
       </dialog>
