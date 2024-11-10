@@ -29,7 +29,7 @@ const Navbar = () => {
 
               {/* 3 Links  */}
               <div className="gap-2  md:flex hidden  mt-4">
-                <Link className="btn btn-accent" href="/">
+                <Link className="btn btn-accent" href="/budgets">
                   Mes Budgets
                 </Link>
                 <Link className="btn btn-accent" href="">
