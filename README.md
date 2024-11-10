@@ -32,4 +32,7 @@
 - create a "modal" (dialog pop up) from daisyui and 4 inputs: name, amount, emoji and Ajouter Budget (button)
 - create corresponding states, and call the "aadBudget" action.
 
+- add daisy ui toast:
+    - create notification
+
 ```

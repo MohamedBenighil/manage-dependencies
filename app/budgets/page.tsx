@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
+import Notification from "../components/Notification";
 import EmojiPicker from "emoji-picker-react";
 import { useUser } from "@clerk/nextjs";
 import { aadBudget } from "../actions";
@@ -10,11 +11,14 @@ const page = () => {
   const [budgetAmount, setbudgetAmount] = useState<string>("");
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
+  const [showNotification, setShowNotification] = useState<string>("");
 
   const { user } = useUser();
+  const handleNotification = () => {
+    setShowNotification("");
+  };
 
   const hundleAddBudget = async () => {
-    console.log(budgetName, budgetAmount, selectedEmoji);
     try {
       const amount = parseFloat(budgetAmount);
 
@@ -29,18 +33,18 @@ const page = () => {
           amount,
           selectedEmoji
         );
-        console.log("the budget was added with success");
       }
       setbudgetName("");
       setbudgetAmount("");
       setSelectedEmoji("");
+      setShowNotification("the budget added with success");
 
       const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
       if (modal) {
         modal.close();
       }
     } catch (error) {
-      console.log("Error: " + error);
+      setShowNotification("Error when adding Budget: " + error);
     }
   };
 
@@ -117,6 +121,9 @@ const page = () => {
           </div>
         </div>
       </dialog>
+      {showNotification && (
+        <Notification message={showNotification} onClose={handleNotification} />
+      )}
     </Wrapper>
   );
 };
