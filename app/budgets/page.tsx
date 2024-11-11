@@ -4,7 +4,10 @@ import Wrapper from "../components/Wrapper";
 import Notification from "../components/Notification";
 import EmojiPicker from "emoji-picker-react";
 import { useUser } from "@clerk/nextjs";
-import { aadBudget } from "../actions";
+import { aadBudget, getBudgetsByUser } from "../actions";
+import {} from "../actions";
+import { Budget } from "@/type";
+//import { Budget } from "../../type";
 
 const page = () => {
   const [budgetName, setbudgetName] = useState<string>("");
@@ -12,6 +15,7 @@ const page = () => {
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
   const [showNotification, setShowNotification] = useState<string>("");
+  const [budgets, setBudgets] = useState<Budget[]>([]);
 
   const { user } = useUser();
 
@@ -48,6 +52,23 @@ const page = () => {
       setShowNotification("" + error);
     }
   };
+
+  const fetchBudgets = async () => {
+    if (user?.primaryEmailAddress?.emailAddress) {
+      try {
+        const userBudgets = await getBudgetsByUser(
+          user.primaryEmailAddress.emailAddress
+        );
+        userBudgets && setBudgets(userBudgets);
+      } catch (error) {
+        setShowNotification("" + error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchBudgets();
+  }, [user?.primaryEmailAddress?.emailAddress]);
 
   return (
     <Wrapper>
@@ -125,6 +146,17 @@ const page = () => {
       {showNotification && (
         <Notification message={showNotification} onClose={handleNotification} />
       )}
+
+      <ul className="grid md:grid-cols-3 ">
+        {budgets.map((budget) => {
+          return (
+            <li key={budget.id} className="">
+              {" "}
+              test
+            </li>
+          );
+        })}
+      </ul>
     </Wrapper>
   );
 };

@@ -17,12 +17,9 @@ export const checkAndAddUser = async (email: string | undefined) => {
           email,
         },
       });
-      console.log("the user with email ", email, "created successfully");
-    } else {
-      console.log("the user with email", email, "already exists");
     }
   } catch (error) {
-    console.log("Error when cheking the user ", error);
+    console.log(error);
   }
 };
 
@@ -54,5 +51,20 @@ export const aadBudget = async (
     });
   } catch (error) {
     console.log("Error when adding the Budget :  ", error);
+  }
+};
+
+export const getBudgetsByUser = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { budgets: { include: { transactions: true } } },
+    });
+    if (!user) {
+      throw new Error("Utilisateur non trouvé!");
+    }
+    return user.budgets;
+  } catch (error) {
+    console.log("Erreur lors de lister les bidget par users : " + error);
   }
 };
