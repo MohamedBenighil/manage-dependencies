@@ -26,9 +26,7 @@ const BudgetItem = ({ budget, enableHover }: BudgetItemProps) => {
                 {budget.emoji}
               </span>
             ) : (
-              <span className=" flex items-center justify-center text-xl text-transparent  p-1">
-                😀
-              </span>
+              <span className=" flex items-center justify-center text-xl text-transparent bg-orange-200 rounded-full  p-4"></span>
             )}
           </div>
 

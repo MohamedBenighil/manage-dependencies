@@ -9,12 +9,13 @@ import {} from "../actions";
 import { Budget } from "@/type";
 import Link from "next/link";
 import BudgetItem from "../components/BudgetItem";
+import { CirclePlus } from "lucide-react";
 
 //import { Budget } from "../../type";
 
 const page = () => {
-  const [budgetName, setbudgetName] = useState<string>("");
-  const [budgetAmount, setbudgetAmount] = useState<string>("");
+  const [budgetName, setBudgetName] = useState<string>("");
+  const [budgetAmount, setBudgetAmount] = useState<string>("");
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
   const [showNotification, setShowNotification] = useState<string>("");
@@ -42,8 +43,8 @@ const page = () => {
           selectedEmoji
         );
       }
-      setbudgetName("");
-      setbudgetAmount("");
+      setBudgetName("");
+      setBudgetAmount("");
       setSelectedEmoji("");
       setShowNotification("the budget added with success");
 
@@ -51,6 +52,7 @@ const page = () => {
       if (modal) {
         modal.close();
       }
+      fetchBudgets();
     } catch (error) {
       setShowNotification("" + error);
       console.log(error);
@@ -84,7 +86,7 @@ const page = () => {
           ).showModal()
         }
       >
-        + Budget
+        <CirclePlus className="w-4 h-4" /> Budget
       </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
@@ -106,7 +108,7 @@ const page = () => {
               required
               value={budgetName}
               onChange={(e) => {
-                setbudgetName(e.target.value);
+                setBudgetName(e.target.value);
               }}
             />
             <input
@@ -118,7 +120,7 @@ const page = () => {
               required
               value={budgetAmount}
               onChange={(e) => {
-                setbudgetAmount(e.target.value);
+                setBudgetAmount(e.target.value);
               }}
             />
             <input
@@ -151,7 +153,7 @@ const page = () => {
         <Notification message={showNotification} onClose={handleNotification} />
       )}
 
-      <ul className="grid md:grid-cols-3 gap-2">
+      <ul className="grid md:grid-cols-3 gap-4 mt-4">
         {budgets.map((budget) => {
           return (
             <Link href="" key={budget.id}>
