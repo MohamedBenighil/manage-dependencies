@@ -7,6 +7,9 @@ import { useUser } from "@clerk/nextjs";
 import { aadBudget, getBudgetsByUser } from "../actions";
 import {} from "../actions";
 import { Budget } from "@/type";
+import Link from "next/link";
+import BudgetItem from "../components/BudgetItem";
+
 //import { Budget } from "../../type";
 
 const page = () => {
@@ -50,6 +53,7 @@ const page = () => {
       }
     } catch (error) {
       setShowNotification("" + error);
+      console.log(error);
     }
   };
 
@@ -147,13 +151,12 @@ const page = () => {
         <Notification message={showNotification} onClose={handleNotification} />
       )}
 
-      <ul className="grid md:grid-cols-3 ">
+      <ul className="grid md:grid-cols-3 gap-2">
         {budgets.map((budget) => {
           return (
-            <li key={budget.id} className="">
-              {" "}
-              test
-            </li>
+            <Link href="" key={budget.id}>
+              <BudgetItem budget={budget} />
+            </Link>
           );
         })}
       </ul>
