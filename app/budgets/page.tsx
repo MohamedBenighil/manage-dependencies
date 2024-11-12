@@ -155,7 +155,7 @@ const page = () => {
         {budgets.map((budget) => {
           return (
             <Link href="" key={budget.id}>
-              <BudgetItem budget={budget} />
+              <BudgetItem budget={budget} enableHover={true} />
             </Link>
           );
         })}

@@ -3,8 +3,9 @@ import React from "react";
 
 interface BudgetItemProps {
   budget: Budget;
+  enableHover?: boolean;
 }
-const BudgetItem = ({ budget }: BudgetItemProps) => {
+const BudgetItem = ({ budget, enableHover }: BudgetItemProps) => {
   const nbTransaction = budget.transactions?.length;
   const totalDesTransactionAmount =
     budget.transactions?.reduce(
@@ -13,8 +14,9 @@ const BudgetItem = ({ budget }: BudgetItemProps) => {
     ) || 0;
   const restBudget = budget.amount - totalDesTransactionAmount;
   const persontage = (totalDesTransactionAmount / budget.amount) * 100;
+  const hoverClass = enableHover ? "hover:border-accent hover:shadow-xl" : "";
   return (
-    <li className="border-2 rounded-lg p-3 list-nonex ">
+    <li className={"border-2 rounded-lg p-3 list-nonex " + hoverClass}>
       {/* top */}
       <div className="flex justify-between ">
         <div className="flex gap-2">
