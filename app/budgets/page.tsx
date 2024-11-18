@@ -55,7 +55,6 @@ const page = () => {
       fetchBudgets();
     } catch (error) {
       setShowNotification("" + error);
-      console.log(error);
     }
   };
 
@@ -74,6 +73,7 @@ const page = () => {
 
   useEffect(() => {
     fetchBudgets();
+    console.log(user);
   }, [user?.primaryEmailAddress?.emailAddress]);
 
   return (
@@ -156,7 +156,7 @@ const page = () => {
       <ul className="grid md:grid-cols-3 gap-4 mt-4">
         {budgets.map((budget) => {
           return (
-            <Link href="" key={budget.id}>
+            <Link href={"/budgets/" + budget.id} key={budget.id}>
               <BudgetItem budget={budget} enableHover={true} />
             </Link>
           );

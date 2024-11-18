@@ -20,13 +20,13 @@ const BudgetItem = ({ budget, enableHover }: BudgetItemProps) => {
       {/* top */}
       <div className="flex justify-between ">
         <div className="flex gap-2">
-          <div className="flex items-center justify-center text-xl  rounded-full">
+          <div className="flex items-center text-xl">
             {budget.emoji ? (
-              <span className=" flex items-center justify-center text-xl rounded-full  bg-orange-200   p-1">
+              <span className="rounded-full bg-orange-200 p-1">
                 {budget.emoji}
               </span>
             ) : (
-              <span className=" flex items-center justify-center text-xl text-transparent bg-orange-200 rounded-full  p-4"></span>
+              <span className="rounded-full bg-orange-200 p-4"></span>
             )}
           </div>
 

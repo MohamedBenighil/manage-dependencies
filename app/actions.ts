@@ -55,6 +55,7 @@ export const aadBudget = async (
 };
 
 export const getBudgetsByUser = async (email: string) => {
+  if (!email) return;
   try {
     const user = await prisma.user.findUnique({
       where: { email },
@@ -66,5 +67,103 @@ export const getBudgetsByUser = async (email: string) => {
     return user.budgets;
   } catch (error) {
     console.log("Erreur lors de lister les bidget par users : " + error);
+  }
+};
+
+// =========================
+//Done
+export const getBudgetById = async (email: string, BudgetId: string) => {
+  if (!email || !BudgetId) return;
+  try {
+    const budget = await prisma.budget.findUnique({
+      where: {
+        id: BudgetId,
+        user: { email },
+      },
+      include: { transactions: true },
+    });
+    if (!budget) {
+      throw new Error(
+        "There is no budget with id: " + BudgetId + " for the user" + email
+      );
+    }
+    return budget;
+  } catch (error) {
+    console.log("erreur getting the budget" + error);
+  }
+
+  // if (!BudgetId) {
+  //   return;
+  // }
+  // try {
+  //   const budget = await prisma.budget.findUnique({
+  //     where: { id: BudgetId },
+  //     include: { transactions: true },
+  //   });
+  //   if (!budget) {
+  //     throw new Error("The budget with " + BudgetId + "does not exists");
+  //   }
+  //   return budget;
+  // } catch (error) {
+  //   console.log(error);
+  // }
+};
+
+//Done
+export const addTransaction = async (
+  email: string,
+  budgetId: string,
+  description: string,
+  amount: number
+) => {
+  if (!budgetId) {
+    return;
+  }
+  try {
+    const budget = await getBudgetById(email, budgetId);
+    if (!budget) {
+      throw new Error("Unable find the budget ");
+    }
+
+    await prisma.transaction.create({
+      data: {
+        budgetId,
+        description,
+        amount,
+        emoji: budget.emoji,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//=================================
+export const deleteTranscation = async (idTransaction: string) => {
+  try {
+    const transaction = await prisma.transaction.delete({
+      where: { id: idTransaction },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteBudget = async (budgetId: string) => {
+  if (!budgetId) return;
+  try {
+    const deleteTransactions = await prisma.transaction.deleteMany({
+      where: {
+        budgetId,
+      },
+    });
+    const deleteBudget = await prisma.budget.delete({
+      where: {
+        id: budgetId,
+      },
+    });
+    //const transaction = await prisma.$transaction([deleteTransactions, deleteBudget])
+  } catch (error) {
+    console.log(error);
   }
 };

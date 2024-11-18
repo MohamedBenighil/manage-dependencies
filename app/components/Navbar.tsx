@@ -35,7 +35,7 @@ const Navbar = () => {
                 <Link className="btn btn-accent" href="">
                   Tableau de bord
                 </Link>
-                <Link className="btn btn-accent" href="">
+                <Link className="btn btn-accent" href="/transactions">
                   Mes dépenses
                 </Link>
               </div>
@@ -54,7 +54,7 @@ const Navbar = () => {
               <Link className="btn btn-sm btn-accent " href="">
                 Tableau de bord
               </Link>
-              <Link className="btn btn-sm btn-accent " href="">
+              <Link className="btn btn-sm btn-accent " href="/transactions">
                 Mes dépenses
               </Link>
             </div>
