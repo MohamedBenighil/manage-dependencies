@@ -54,16 +54,55 @@ export const aadBudget = async (
   }
 };
 
-export const getBudgetsByUser = async (email: string) => {
+// export const getBudgetsByUser = async (email: string) => {
+//   if (!email) return;
+//   try {
+//     const user = await prisma.user.findUnique({
+//       where: { email },
+//       include: { budgets: { include: { transactions: true } } },
+//     });
+//     if (!user) {
+//       throw new Error("Utilisateur non trouvé!");
+//     }
+//     return user.budgets;
+//   } catch (error) {
+//     console.log("Erreur lors de lister les bidget par users : " + error);
+//   }
+// };
+
+// ==============================
+export const getBudgetsByUser = async (email: string, lastXday?: number) => {
   if (!email) return;
   try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-      include: { budgets: { include: { transactions: true } } },
-    });
+    const user =
+      (lastXday &&
+        (await prisma.user.findUnique({
+          where: { email },
+          include: {
+            budgets: {
+              include: {
+                transactions: {
+                  where: {
+                    createdAt: {
+                      gte: new Date(
+                        Date.now() - lastXday * 24 * 60 * 60 * 1000
+                      ).toISOString(),
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }))) ||
+      (await prisma.user.findUnique({
+        where: { email },
+        include: { budgets: { include: { transactions: true } } },
+      }));
+
     if (!user) {
       throw new Error("Utilisateur non trouvé!");
     }
+
     return user.budgets;
   } catch (error) {
     console.log("Erreur lors de lister les bidget par users : " + error);
